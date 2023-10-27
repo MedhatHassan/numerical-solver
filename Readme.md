@@ -9,6 +9,7 @@
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
+- [all function](#all-function)
 - [Contributing](#contributing)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
@@ -18,42 +19,95 @@
 Welcome to the Numerical Solver repository! This Python script provides a versatile tool for solving mathematical equations using various numerical methods. Whether you're a student, researcher, or developer, this tool can help you find approximate solutions to equations efficiently.
 
 ## Description
-
 Numerical Solver is a Python script designed to help you find numerical solutions to mathematical equations. It supports multiple numerical methods, including the Bisection Method, False Position Method, Newton-Raphson Method, and the Secant Method. You can use it to approximate roots of equations with different levels of accuracy and precision.
 
 ## installation
 Clone this repository to your local machine:
-```git clone https://github.com/MedhatHassan/NumericalSolver.git```
+```git clone https://github.com/MedhatHassan/numericalsolver.git```
 Install the required dependencies using pip:
 ```pip install sympy```
-## Usage
-
-To use Numerical Solver, follow these steps:
-
-1. Clone or download the repository to your local machine.
-2. Ensure you have Python and the required dependencies, such as SymPy, installed on your system.
-3. Run the script with the desired options and input parameters.
-
-You can specify the mathematical function you want to solve and choose from various numerical methods to find an approximate solution. The script provides options for controlling error tolerance, the maximum number of iterations, and verbosity for detailed output.
-
-For a complete guide on how to use Numerical Solver, please refer to the script's built-in help:
-```python numerical_solver.py --help```
 
 ## Supported Methods
 Numerical Solver supports the following numerical methods:
 
-Bisection Method: Approximates roots using the bisection method within a specified interval.
-False Position Method: Uses the false position method to find root estimates.
-Newton-Raphson Method: Applies the Newton-Raphson method for root approximation.
-Secant Method: Utilizes the secant method to find root approximations.
-You can choose any of these methods according to your needs and preferences.
+- Bisection Method: Approximates roots using the bisection method within a specified interval.
+- False Position Method: Uses the false position method to find root estimates.
+- Newton-Raphson Method: Applies the Newton-Raphson method for root approximation.
+- Secant Method: Utilizes the secant method to find root approximations.
+You can choose any of these methods according to your needs and preferences Or choose all to compare them all to get the right answer.
 
 ## Prerequisites
 
 Before using Numerical Solver, make sure you have the following prerequisites in place:
-
 - Python (version 3.6 or higher)
 - SymPy library (for symbolic mathematics)
+
+## Usage
+Run `python Numerical Solver.py --help` to get help
+```
+
+            ███╗   ██╗ ██╗   ██╗ ███╗   ███╗ ███████╗ ██████╗  ██╗  ██████╗  █████╗  ██╗          ███████╗  ██████╗  ██╗      ██╗   ██╗ ███████╗ ██████╗  
+            ████╗  ██║ ██║   ██║ ████╗ ████║ ██╔════╝ ██╔══██╗ ██║ ██╔════╝ ██╔══██╗ ██║          ██╔════╝ ██╔═══██╗ ██║      ██║   ██║ ██╔════╝ ██╔══██╗ 
+            ██╔██╗ ██║ ██║   ██║ ██╔████╔██║ █████╗   ██████╔╝ ██║ ██║      ███████║ ██║          ███████╗ ██║   ██║ ██║      ██║   ██║ █████╗   ██████╔╝ 
+            ██║╚██╗██║ ██║   ██║ ██║╚██╔╝██║ ██╔══╝   ██╔══██╗ ██║ ██║      ██╔══██║ ██║          ╚════██║ ██║   ██║ ██║      ╚██╗ ██╔╝ ██╔══╝   ██╔══██╗ 
+            ██║ ╚████║ ╚██████╔╝ ██║ ╚═╝ ██║ ███████╗ ██║  ██║ ██║ ╚██████╗ ██║  ██║ ███████╗     ███████║ ╚██████╔╝ ███████╗  ╚████╔╝  ███████╗ ██║  ██║ 
+            ╚═╝  ╚═══╝  ╚═════╝  ╚═╝     ╚═╝ ╚══════╝ ╚═╝  ╚═╝ ╚═╝  ╚═════╝ ╚═╝  ╚═╝ ╚══════╝     ╚══════╝  ╚═════╝  ╚══════╝   ╚═══╝   ╚══════╝ ╚═╝  ╚═╝ 
+                                                                                                                    By Medhat hassan ~~ @MedhatHassan     
+    
+usage: Numerical Solver.py [-h] -f FUNCTION [-e ERROR] [-i ITERATIONS] [-v] [-b] [-fp] [-n] [-s] [-all] [-xl LOWER_VALUE] [-xu UPPER_VALUE] [-x0 INTIAL_VALUE0] [-x1 INTIAL_VALUE1]
+
+Numerical Solver
+
+options:
+  -h, --help            show this help message and exit
+  -f FUNCTION, --function FUNCTION
+                        Math function to solve
+  -e ERROR, --error ERROR
+                        Error tolerance (default: 1e-5)
+  -i ITERATIONS, --iterations ITERATIONS
+                        Maximum number of iterations (default: 50)
+  -v, --verbose         To show all iterations of numerical methods
+  -b, --bisection       Use the Bisection Method
+  -fp, --false_position
+                        Use the False Position Method
+  -n, --newton_raphson  Use the newton raphson Method
+  -s, --secant          Use the secant Method
+  -all, --all_methods   Use all Method and compare
+  -xl LOWER_VALUE, --lower_value LOWER_VALUE
+                        Lower value for bisection or false position
+  -xu UPPER_VALUE, --upper_value UPPER_VALUE
+                        Upper value for bisection or false position
+  -x0 INTIAL_VALUE0, --intial_value0 INTIAL_VALUE0
+                        Intial value for newton raphson or secant
+  -x1 INTIAL_VALUE1, --intial_value1 INTIAL_VALUE1
+                        Intial value for secant
+```
+## all function
+The all function is designed to provide a comparison of different numerical methods and find the best method for approximating the root of a mathematical equation.
+It allows users to apply multiple numerical methods and select the one that produces the closest result to the exact solution.
+This function is particularly useful when you want to assess the accuracy of different methods for a given equation and determine which method performs best.
+The all function uses the following numerical methods: Bisection, False Position, Newton-Raphson, and Secant.
+It also considers the exact solutions, if available, as a reference point for comparison.
+Usage
+To use the all function effectively, follow these steps:
+
+Provide the mathematical equation you want to solve using the -f or --function command-line argument.
+
+Use the -all or --all_methods command-line flag to enable the all function.
+
+Depending on the method you want to use, provide the relevant input parameters. For example:
+
+If using the Bisection Method, provide the lower and upper interval limits (-xl and -xu).
+If using the False Position Method, provide the lower and upper interval limits (-xl and -xu).
+If using the Newton-Raphson Method, provide the initial guess (-x0).
+If using the Secant Method, provide two initial guesses (-x0 and -x1).
+Run the script, and it will execute all the specified methods and provide the approximate roots and error values for each method.
+
+The script will also identify the method that produces the result closest to the exact solution (if available) and report it as the best method.
+
+The best method and its corresponding root value will be displayed as the final output.
+
+You can specify the mathematical function you want to solve and choose from various numerical methods to find an approximate solution. The script provides options for controlling error tolerance, the maximum number of iterations, and verbosity for detailed output.
 
 
 ## Contributing
