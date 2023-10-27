@@ -1,6 +1,6 @@
 # Numerical Solver
 
-![Numerical Solver Logo](https://www.example.com/path/to/your/logo.png)
+![Numerical Solver Logo](https://github.com/MedhatHassan/numerical-solver/blob/main/logo.png)
 
 ## Table of Contents
 - [Introduction](#introduction)
