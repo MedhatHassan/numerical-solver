@@ -88,27 +88,21 @@ It allows users to apply multiple numerical methods and select the one that prod
 This function is particularly useful when you want to assess the accuracy of different methods for a given equation and determine which method performs best.
 The all function uses the following numerical methods: Bisection, False Position, Newton-Raphson, and Secant.
 It also considers the exact solutions, if available, as a reference point for comparison.
-Usage
+### Usage
 To use the all function effectively, follow these steps:
+- Provide the mathematical equation you want to solve using the -f or --function command-line argument.
+- provide the lower and upper interval limits (-xl and -xu).
+- provide two initial guesses (-x0 and -x1).
 
-Provide the mathematical equation you want to solve using the -f or --function command-line argument.
+Run the script, and it will execute all the methods and provide the approximate roots and error values for each method.
 
-Use the -all or --all_methods command-line flag to enable the all function.
-
-Depending on the method you want to use, provide the relevant input parameters. For example:
-
-If using the Bisection Method, provide the lower and upper interval limits (-xl and -xu).
-If using the False Position Method, provide the lower and upper interval limits (-xl and -xu).
-If using the Newton-Raphson Method, provide the initial guess (-x0).
-If using the Secant Method, provide two initial guesses (-x0 and -x1).
-Run the script, and it will execute all the specified methods and provide the approximate roots and error values for each method.
-
-The script will also identify the method that produces the result closest to the exact solution (if available) and report it as the best method.
+The script will also identify the method that produces the result closest to the exact solution **(if available)** and report it as the best method.
 
 The best method and its corresponding root value will be displayed as the final output.
-
-You can specify the mathematical function you want to solve and choose from various numerical methods to find an approximate solution. The script provides options for controlling error tolerance, the maximum number of iterations, and verbosity for detailed output.
-
+### examble 
+```
+python Numerical Solver.py -f "x - cos(x)" -all -xl 0.9 -xu 0.4 -x0 0.9 -x1 1 -i 10
+```
 
 ## Contributing
 We welcome contributions to improve Numerical Solver! If you have any ideas for enhancements, bug fixes, or new features, please feel free to submit a pull request. Make sure to follow the contribution guidelines provided in the repository.
