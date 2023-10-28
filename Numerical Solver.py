@@ -30,6 +30,7 @@ def parse_args():
     parser.add_argument("-fp", "--false_position", action="store_true", help="Use the False Position Method")
     parser.add_argument("-n", "--newton_raphson", action="store_true", help="Use the newton raphson Method")
     parser.add_argument("-s", "--secant", action="store_true", help="Use the secant Method")
+    parser.add_argument("-sf", "--simple_fixed", action="store_true", help="Use the simple fixed Method")
     parser.add_argument("-all", "--all_methods", action="store_true", help="Use all Method and compare")
     parser.add_argument("-xl", "--lower_value", type=float, help="Lower value for bisection or false position")
     parser.add_argument("-xu", "--upper_value", type=float, help="Upper value for bisection or false position")
@@ -52,7 +53,6 @@ def exactSolutions(equation):
         return solutions
     except:
         print("[-]No exact solutions found for the given equation.")
-
 
 def f(x, equation):
     return equation.subs('x', x)
@@ -218,9 +218,9 @@ def secantMethod(equation, x0, x1, tol, max_iter, verbose):
 
     return None
 
-def compareRoots(bisection_result, false_position_result, newton_raphson_result, secant_result, exact_solutions):
-    methods = ["Bisection", "False Position", "Newton-Raphson", "Secant", "Exact Solutions"]
-    roots = [bisection_result, false_position_result, newton_raphson_result, secant_result, exact_solutions]
+def compareRoots(bisection_result, false_position_result, newton_raphson_result, secant_result, fixed_result , exact_solutions):
+    methods = ["Bisection", "False Position", "Newton-Raphson", "Secant", "Simple fixed point" ,"Exact Solutions"]
+    roots = [bisection_result, false_position_result, newton_raphson_result, secant_result, fixed_result, exact_solutions ]
 
     # Find the method with the closest root to the exact solution
     best_method_index = min(range(len(roots)), key=lambda i: abs(roots[i] - exact_solutions))
@@ -230,11 +230,9 @@ def compareRoots(bisection_result, false_position_result, newton_raphson_result,
 
     return best_method, best_root
 
-import sympy as sp
-
-def compareRootsError(bisection_error, false_position_error, newton_raphson_error, secant_error):
-    methods = ["Bisection", "False Position", "Newton-Raphson", "Secant"]
-    errors = [bisection_error, false_position_error, newton_raphson_error, secant_error]
+def compareRootsError(bisection_error, false_position_error, newton_raphson_error, secant_error , fixed_error):
+    methods = ["Bisection", "False Position", "Newton-Raphson", "Secant" , "Simple fixed point"]
+    errors = [bisection_error, false_position_error, newton_raphson_error, secant_error, fixed_error]
 
     # Find the method with the lowest error
     best_method_index = errors.index(min(errors))
@@ -243,6 +241,38 @@ def compareRootsError(bisection_error, false_position_error, newton_raphson_erro
 
     return best_method, best_error
 
+def g(x):
+    return 1/sp.sqrt(1+x)
+
+def fixedPointIteration(equation, x0, es, imax, verbose=False):
+    x = sp.symbols('x')
+    equation = sp.sympify(equation)
+
+    iter = 0
+    xm = x0
+    ea = 100.0  # Initialize error to 100% in the first iteration
+
+    if verbose:
+        print('i \t xi \t\t εa (%) \t εt (%)')
+        print("------------------------------------------------")
+
+    while (ea > es) and (iter < imax):
+        if iter == 0:
+            xmold = xm
+            xm = g(xm)
+            ea = abs((xm - xmold) / xm) * 100
+
+        if verbose:
+            et = abs((0.56714329 - xm) / 0.56714329) * 100
+            print(f'{iter} \t {xm:0.6f} \t {ea:0.2f} \t\t {et:0.2f}')
+
+        iter += 1
+
+        xmold = xm
+        xm = g(xm)
+        ea = abs((xm - xmold) / xm) * 100
+
+    return xm, ea
 
 if __name__ == "__main__":
     args = parse_args()
@@ -254,6 +284,7 @@ if __name__ == "__main__":
     falsePostion = args.false_position
     newton = args.newton_raphson
     secant = args.secant
+    fixed = args.simple_fixed
     x0 = args.intial_value0
     x1 = args.intial_value1
     xu = args.upper_value
@@ -296,7 +327,13 @@ if __name__ == "__main__":
             secantMethod_result = secantMethod(equation,x0,x1,error,iterations,verbose)
             print("[+]secant Method - Approximate root:", secantMethod_result)
         else:
-            print("[-]You must specify an intial value [x0] for Newton Raphson Method")
+            print("[-]You must specify an intial value [x0] and [x1] for secant Method")
+    if fixed:
+        if x0:
+            fixed_result = fixedPointIteration(equation,x0,error,iterations,verbose)
+            print("[+]Simple fixed point iteration Method - Approximate root:", fixed_result)
+        else:
+            print("[-]You must specify an intial value [x0] for Simple fixed point iteration Method Method")
     if all:
         exact_solutions = exactSolutions(equation)
         if xu and xl and x0 and x1 and exact_solutions:
@@ -305,20 +342,26 @@ if __name__ == "__main__":
             falsePositionMethod_result,error = falsePositionMethod(equation,xl, xu, error, iterations,verbose=False)
             newtonRaphsonMethod_result,error = newtonRaphsonMethod(equation,x0,error,iterations,verbose=False)
             secantMethod_result,error = secantMethod(equation,x0,x1,error,iterations,verbose=False)
-            best_method, best_root = compareRoots(bisectionMethod_result, falsePositionMethod_result, newtonRaphsonMethod_result, secantMethod_result, exact_solutions)
+            fixedtMethod_result,error = fixedPointIteration(equation,x0,error,iterations,verbose=False)
+            best_method, best_root = compareRoots(bisectionMethod_result, falsePositionMethod_result, newtonRaphsonMethod_result, secantMethod_result,fixedtMethod_result, exact_solutions)
             print("[+]Bisection Method - Approximate root:", bisectionMethod_result)
             print("[+]False Position Method - Approximate root:", falsePositionMethod_result)
             print("[+]Newton Raphson Method - Approximate root:", newtonRaphsonMethod_result)
             print("[+]secant Method - Approximate root:", secantMethod_result)
+            print("[+]Simple fixed point iteration Method - Approximate root:", fixedtMethod_result)
             print(f"The best method is {best_method} with a root value of {best_root:.10f}")
-        else:
-            res,bisection_error = bisectionMethod(equation,xl, xu, error, iterations,verbose=False)
-            res,falsePosition_error = falsePositionMethod(equation,xl, xu, error, iterations,verbose=False)
-            res,newtonRaphson_error = newtonRaphsonMethod(equation,x0,error,iterations,verbose=False)
-            res,secant_error = secantMethod(equation,x0,x1,error,iterations,verbose=False)
-            print("[+]Bisection Method - Approximate root:", res)
-            print("[+]False Position Method - Approximate root:", res)
-            print("[+]Newton Raphson Method - Approximate root:", res)
-            print("[+]secant Method - Approximate root:", res)
-            best_method, best_error = compareRootsError(bisection_error, falsePosition_error, newtonRaphson_error, secant_error)
+        if xu and xl and x0 and x1:
+            bisection_res,bisection_error = bisectionMethod(equation,xl, xu, error, iterations,verbose=False)
+            falsePosition_res,falsePosition_error = falsePositionMethod(equation,xl, xu, error, iterations,verbose=False)
+            newtonRaphson_res,newtonRaphson_error = newtonRaphsonMethod(equation,x0,error,iterations,verbose=False)
+            secant_res,secant_error = secantMethod(equation,x0,x1,error,iterations,verbose=False)
+            fixed_res,fixed_error = fixedPointIteration(equation,x0,error,iterations,verbose=False)
+            print("[+]Bisection Method - Approximate root:", bisection_res)
+            print("[+]False Position Method - Approximate root:", falsePosition_res)
+            print("[+]Newton Raphson Method - Approximate root:", newtonRaphson_res)
+            print("[+]secant Method - Approximate root:", secant_res)
+            print("[+]Simple fixed point iteration Method - Approximate root:",fixed_res)
+            best_method, best_error = compareRootsError(bisection_error, falsePosition_error, newtonRaphson_error, secant_error,fixed_error)
             print(f"The best method is {best_method} with an error of {best_error:.10f}")
+        else:
+            print("[-]To use all method you must set values for [xu] [xl] [x0] [x1]")
